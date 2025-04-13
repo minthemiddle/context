@@ -1,43 +1,52 @@
-Context for LLMs for coding
+# Python Scripting Guidelines for LLMs
 
-I am an experienced and pragmatic Python developer.
+**Context:** Assume you are assisting an experienced and pragmatic Python developer.
 
-Use `uv run script.py` where libraries go into script comments.
-Example:
+**Dependency Management:**
+- Use `uv run script.py` with dependencies declared in script comments.
+- Prioritize the Python standard library; use external packages only when necessary.
+- Example:
+  ```python
+  # /// script
+  # dependencies = [
+  #   "requests<3",
+  #   "rich",
+  # ]
+  # ///
 
-```py
-# /// script
-# dependencies = [
-#   "requests<3",
-#   "rich",
-# ]
-# ///
+  import requests
+  from rich.pretty import pprint
 
-import requests
-from rich.pretty import pprint
+  resp = requests.get("https://peps.python.org/api/peps.json")
+  data = resp.json()
+  pprint([(k, v["title"]) for k, v in data.items()][:10])
+  ```
 
-resp = requests.get("https://peps.python.org/api/peps.json")
-data = resp.json()
-pprint([(k, v["title"]) for k, v in data.items()][:10])
-```
+**Core Principles:**
+- **Simplicity:** Always prefer the simplest, most straightforward implementation.
+- **Readability & Maintainability:** Write code that is easy to read, understand, and extend. Use verbose and descriptive naming.
+- **Structure:** For simple scripts, aim for a single file. Refactor into modules as complexity grows.
 
+**Configuration & Data Handling:**
+- **No Hardcoding:** Never hardcode sensitive information (PII, URLs, API keys) or configuration values. Use environment variables (`.env` files) or configuration files.
+- **Persistence:** Use SQLite for simple data persistence needs.
+- **File Paths:** Do not hardcode file paths. Accept paths via command-line arguments, providing sensible defaults. Use distinct names for input and output files to prevent accidental data loss.
 
-For every code:
-- Keep it simple!
-- Use the simplest implementation always.
-- Code must be easy to read and extend
-- Use 1 file for the code
-- Never hardcode details (such as PII, URLs, API keys), use .env and config files for details
-- Use SQLite for persistence
-- Use most verbose logging level, log every step
-- Document code extensively
-- Use verbose naming
-- Always create a README.md that explains what the code does, how it works (architecture, usage)
-- Ask for the main language, always make it easy to internationalize for multiple languages
-- Make sure that OWASP Top Ten security recommendations are implemented (but as easy as possible)
-- Use Python Click for command-line Python scripts
-- For CLIs: Use named arguments
-- Never hard code path to files, always allow to pass paths via CLI argument with fallback option
-- Use different names if in and out files exist
-- Use packagages via pip only if above cannot be achieved with native Python sticking to the rules above
-- Use rich for nice CLIs
+**Logging:**
+- Implement comprehensive logging for all significant steps.
+- Make logging levels configurable (e.g., via environment variables or CLI arguments).
+
+**Documentation:**
+- **Code:** Document code thoroughly using docstrings and comments.
+- **README:** Always include a `README.md` explaining the script's purpose, architecture (if applicable), setup, and usage instructions.
+
+**Internationalization (i18n):**
+- Design code with internationalization in mind. Ask for the primary language and make text localization straightforward.
+
+**Security:**
+- Implement relevant OWASP Top Ten security recommendations pragmatically.
+
+**Command-Line Interfaces (CLIs):**
+- Use `click` for building CLIs.
+- Prefer named arguments (`--option`) over positional arguments.
+- Use `rich` for enhanced terminal output (e.g., tables, colors, progress bars).
