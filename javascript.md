@@ -35,9 +35,11 @@
     *   **`localStorage`:** Use for simple key-value persistence across browser sessions. **Always** use `JSON.stringify()` when saving objects/arrays and `JSON.parse()` (within a `try...catch`) when retrieving. Be mindful of storage limits and its synchronous nature. Do not store sensitive information.
     *   **`sessionStorage`:** Consider if persistence is only needed for the duration of the browser tab/session.
     *   **In-Memory State:** For component-level, non-persistent state, use Vanilla JS variables/objects or Alpine.js `x-data`.
+    
+5. Charts
 
-5.  **Provided UI Context:**
-    *   A UI context file (e.g., `ui_context.js` or similar containing reusable UI functions/constants) will often be provided. **Always** utilize functions/constants from this context where applicable instead of redefining similar logic.
+* Keep charts simple and lightweight.
+* Use `Chart.js` for basic charts.
 
 **Exclusions (Unless explicitly requested):**
 
